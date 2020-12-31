@@ -76,8 +76,19 @@ class PassedTests(models.Model):
     question_count = models.PositiveIntegerField()
     pass_date_time = models.DateTimeField(default=timezone.now)
 
+    @property
+    def precent(self):
+        return round((self.right_answers_count * 100 / self.question_count), 2)
+
     class Meta:
         ordering = ['pass_date_time']
+        verbose_name = "Passed test"
+        verbose_name_plural = "Passed tests"
+
+    def __str__(self):
+        return f'test: "{self.passed_test.title}" -' \
+               f' {self.tests_user.full_name}:  ' \
+               f'{self.right_answers_count} right / {self.precent}%'
 
 
 class Question(models.Model):
@@ -105,6 +116,14 @@ class Question(models.Model):
         on_delete=models.CASCADE
     )
 
+    class Meta:
+        ordering = ['test', 'text']
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
+
+    def __str__(self):
+        return f'{self.test.title} -> {self.text[:25]}...'
+
 
 class Comment(models.Model):
     text = models.CharField(max_length=460)
@@ -119,3 +138,11 @@ class Comment(models.Model):
         related_name='users_comments',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return f'{self.user.full_name} to {self.test.title}: {self.text}'
