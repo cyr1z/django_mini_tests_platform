@@ -25,7 +25,7 @@ SECRET_KEY = 'n9ijbk+n8o$&=f#&t$$6+bg-&-a9sg2$0&t-&_nh2e5pv7ws5h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', ]
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tests.apps.TestsConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -132,5 +133,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+LOGIN_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = '/tests'
 LOGOUT_REDIRECT_URL = '/'
+TESTS_ORDERINGS = ['created_at', ]
+DEFAULT_TESTS_ORDERING = 'created_at'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = "/"

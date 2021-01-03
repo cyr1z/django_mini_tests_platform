@@ -54,7 +54,7 @@ class Test(models.Model):
 
     @property
     def question_count(self):
-        return self.tests_questions.count()
+        return self.test_questions.count()
 
     @property
     def pass_count(self):
@@ -112,7 +112,7 @@ class Question(models.Model):
     )
     test = models.ForeignKey(
         Test,
-        related_name='tests_questions',
+        related_name='test_questions',
         on_delete=models.CASCADE
     )
 
