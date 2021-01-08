@@ -14,7 +14,7 @@ class TestsUser(AbstractUser):
     avatar = models.ImageField(
         verbose_name='avatar',
         upload_to='avatars',
-        default='media/default_avatar.png',
+        default='static/default_avatar.png',
         null=True,
         blank=True,
     )
@@ -29,6 +29,11 @@ class TestsUser(AbstractUser):
         if self.get_full_name():
             return self.get_full_name()
         return self.username
+    
+    # @property
+    # def date_of_birth_format(self):
+    #     obj = self.get_object()
+    #     return obj.date_of_birth
 
     class Meta:
         verbose_name = 'User'
@@ -77,7 +82,7 @@ class PassedTests(models.Model):
     pass_date_time = models.DateTimeField(default=timezone.now)
 
     @property
-    def precent(self):
+    def percentage(self):
         return round((self.right_answers_count * 100 / self.question_count), 2)
 
     class Meta:
@@ -88,7 +93,7 @@ class PassedTests(models.Model):
     def __str__(self):
         return f'test: "{self.passed_test.title}" -' \
                f' {self.tests_user.full_name}:  ' \
-               f'{self.right_answers_count} right / {self.precent}%'
+               f'{self.right_answers_count} right / {self.percentage}%'
 
 
 class Question(models.Model):

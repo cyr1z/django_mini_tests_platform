@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -136,9 +136,9 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = '/tests'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 TESTS_ORDERINGS = ['created_at', ]
 DEFAULT_TESTS_ORDERING = 'created_at'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
