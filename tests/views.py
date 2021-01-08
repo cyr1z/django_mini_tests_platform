@@ -1,8 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 
 # Create your views here.
 from django.db.models import Count
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
@@ -10,7 +12,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS
 from tests.forms import SignUpForm, CreateTestForm
-from tests.models import Test, TestsUser
+from tests.models import Test, TestsUser, Question
 
 
 class UserLogin(LoginView):
@@ -50,9 +52,7 @@ class TestsView(ListView):
     paginate_by = 10
     template_name = 'tests.html'
 
-    queryset = Test.objects.all() \
-        .annotate(num_q=Count('test_questions')) \
-        .filter(num_q__gte=4)
+    queryset = Test.objects.filter(draft=False)
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', DEFAULT_TESTS_ORDERING)
@@ -72,8 +72,32 @@ class MyTestsView(TestsView):
     """
     List of active user tests
     """
+
     def get_queryset(self):
         return Test.objects.filter(author=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class TestUpdateView(UpdateView):
+    """
+    Update session. Only for administrators.
+    """
+    model = Test
+    template_name = 'test_edit.html'
+    success_url = reverse_lazy('tests:my_tests')
+    fields = ['title', 'description', 'created_at', 'draft']
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        test = self.object
+        test.author = self.request.user
+        question_count = Question.objects.filter(test=test).count()
+        if question_count < 4 and not test.draft:
+            messages.error(self.request, "this test doesnt have 4 questions")
+            return HttpResponseRedirect(
+                self.request.META.get('HTTP_REFERER'))
+
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -82,29 +106,20 @@ class CreateTestView(CreateView):
         Create test
     """
     form_class = CreateTestForm
-    template_name = 'test_create.html'
-
-    def get_success_url(self):
-        obj = self.kwargs['obj']
-        obj.save()
-        return reverse('tests:edit_test', kwargs={'pk': obj})
-
-
-@method_decorator(login_required, name='dispatch')
-class TestUpdateView(UpdateView):
-    form_class = CreateTestForm
     template_name = 'test_edit.html'
 
-    # Add  to context
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        return context
+    def get_success_url(self):
+        obj_id = self.object.id
+        return reverse('tests:test_edit', kwargs={'pk': obj_id})
 
-# class Custom500View(View):
-#     def dispatch(self, request, *args, **kwargs):
-#         return render(request, '500.html', {}, status=500)
-#
-#
-# class Custom404View(View):
-#     def dispatch(self, request, *args, **kwargs):
-#         return render(request, '404.html', {}, status=404)
+    def form_valid(self, form):
+        test = form.save(commit=False)
+        test.author = self.request.user
+        form.instance.author = self.request.user
+        form.save()
+        return super(CreateTestView, self).form_valid(form)
+
+
+
+
+

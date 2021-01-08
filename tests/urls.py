@@ -11,11 +11,11 @@ app_name = 'tests'
 urlpatterns = [
     path('', TestsView.as_view(), name="tests"),
     path('mytests/', MyTestsView.as_view(), name="my_tests"),
+    path('test_edit/<int:pk>/', TestUpdateView.as_view(), name="test_edit"),
+    path('create_test/', CreateTestView.as_view(), name="create_test"),
     path('accounts/login/', UserLogin.as_view(), name="login"),
     path('logout/', UserLogout.as_view(), name="logout"),
     path('accounts/register/', Register.as_view(), name="register"),
-    path('edit_test/', TestUpdateView.as_view(), name="edit_test"),
-    path('create_test/', CreateTestView.as_view(), name="create_test"),
     path('profile/<int:pk>/', UserDetailView.as_view(), name="profile"),
 
 ]

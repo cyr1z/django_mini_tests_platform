@@ -32,6 +32,7 @@ class SignUpForm(UserCreationForm):
 
 
 class CreateTestForm(ModelForm):
+
     class Meta:
         model = Test
         fields = [

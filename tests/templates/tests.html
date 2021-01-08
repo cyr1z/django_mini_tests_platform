@@ -21,7 +21,7 @@
                 <td>{{ test.question_count }}</td>
                 <td>{{ test.created_at }}</td>
                 {% if 'mytest' in request.path %}
-                    <td><a href="{% url 'tests:tests' %}" class="btn btn-outline-danger btn-sm"><i data-feather="edit"></i>
+                    <td><a href="{% url 'tests:test_edit' test.id %}" class="btn btn-outline-warning btn-sm"><i data-feather="edit"></i>
                     </i> Edit</a></td>
                 {% else %}
                     <td><a href="{% url 'tests:tests' %}" class="btn btn-outline-info btn-sm"><i data-feather="play"></i>

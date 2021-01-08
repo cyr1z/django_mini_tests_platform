@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} {{ title }} {% endblock title %}
+{% block content %}
+     {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="alert alert-warning"{% endif %}>
+                                {{ message }}
+                            {{ error|escape }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
+
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <input type="submit" class="btn btn-primary btn-block" value="Submit">
+                </form>
+            </div>
+          </div>
+        {% if 'test_edit' in request.path %}
+          <div class="row">
+                      <div class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
+            <h2> &nbsp;</h2>
+                <button class="btn btn-info btn-block" ><i data-feather="file-plus"> </i> Add question</button>
+
+             <table class="table table-hover ">
+
+
+        <tbody>
+                 {% for question in object.test_questions.all %}
+            <tr>
+                <td>{{ question.text }}</td>
+
+
+                    <td><a href="{% url 'tests:test_edit' test.id %}" class="btn btn-outline-warning btn-sm"><i data-feather="edit"></i>
+                        </i> Edit</a></td>
+                    <td><a href="{% url 'tests:tests' %}" class="btn btn-outline-danger btn-sm"><i data-feather="delete"></i>
+                    </i> Delete</a></td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+            </div>
+
+          </div>
+        {% endif %}
+        </div>
+      </div>
+
+{% endblock content %}

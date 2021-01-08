@@ -29,7 +29,7 @@ class TestsUser(AbstractUser):
         if self.get_full_name():
             return self.get_full_name()
         return self.username
-    
+
     # @property
     # def date_of_birth_format(self):
     #     obj = self.get_object()
@@ -51,6 +51,7 @@ class Test(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    draft = models.BooleanField(default=True)
     author = models.ForeignKey(
         TestsUser,
         related_name='authors_tests',
@@ -64,6 +65,12 @@ class Test(models.Model):
     @property
     def pass_count(self):
         return self.users_who_passed_test.count()
+
+    def save(self, *args, **kwargs):
+        # the session is draft, while don't have 4 questions
+        if self.test_questions.count() < 4:
+            self.draft = True
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Test'
