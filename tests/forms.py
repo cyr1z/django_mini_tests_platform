@@ -15,6 +15,7 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(
         max_length=254,
         help_text='Required. Inform a valid email address.')
+    date_of_birth = forms.DateField()
 
     class Meta:
         model = TestsUser
@@ -23,7 +24,7 @@ class SignUpForm(UserCreationForm):
             'first_name',
             'last_name',
             'email',
-            #'date_of_birth',
+            'date_of_birth',
             'password1',
             'password2',
             'avatar',

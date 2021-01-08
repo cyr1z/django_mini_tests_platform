@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.forms import DateField
 from django.utils import timezone
 
 
@@ -10,7 +9,7 @@ class TestsUser(AbstractUser):
     Add about, avatar and date_of_birth
     """
     about = models.CharField(max_length=4096)
-    date_of_birth = DateField()
+    date_of_birth = models.DateField(blank=True, null=True)
     avatar = models.ImageField(
         verbose_name='avatar',
         upload_to='avatars',
@@ -30,10 +29,9 @@ class TestsUser(AbstractUser):
             return self.get_full_name()
         return self.username
 
-    # @property
-    # def date_of_birth_format(self):
-    #     obj = self.get_object()
-    #     return obj.date_of_birth
+    @property
+    def date_of_birth_format(self):
+        return self.date_of_birth
 
     class Meta:
         verbose_name = 'User'

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tests.apps.TestsConfig',
     'crispy_forms',
+    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [
