@@ -1,3 +1,4 @@
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.forms import ModelForm
@@ -52,4 +53,5 @@ class CreateQuestionForm(ModelForm):
             'answer_three',
             'answer_four',
             'right_answer',
+            # 'test'
         ]

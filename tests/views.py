@@ -1,3 +1,4 @@
+from bootstrap_modal_forms.generic import BSModalCreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
@@ -11,7 +12,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS
-from tests.forms import SignUpForm, CreateTestForm
+from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm
 from tests.models import Test, TestsUser, Question
 
 
@@ -62,9 +63,9 @@ class TestsView(ListView):
         return ordering
 
     # Add  to context
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        return context
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(object_list=object_list, **kwargs)
+    #     return context
 
 
 @method_decorator(login_required, name='dispatch')
@@ -72,7 +73,6 @@ class MyTestsView(TestsView):
     """
     List of active user tests
     """
-
     def get_queryset(self):
         return Test.objects.filter(author=self.request.user)
 
@@ -99,6 +99,12 @@ class TestUpdateView(UpdateView):
 
         return super().form_valid(form)
 
+    # Add  to context
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context.update({'add_question_form': CreateQuestionForm})
+        return context
+
 
 @method_decorator(login_required, name='dispatch')
 class CreateTestView(CreateView):
@@ -120,6 +126,20 @@ class CreateTestView(CreateView):
         return super(CreateTestView, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
+class QuestionCreateView(CreateView):
+    form_class = CreateQuestionForm
+    model = Question
 
+    def form_valid(self, form):
+        question = form.save(commit=False)
+        test_id = self.request.POST.get('test_id')
+        test = Test.objects.get(id=test_id)
+        question.test = test
+        question.save()
+        return super().form_valid(form=form)
 
+    def get_success_url(self):
+        test_id = self.request.POST.get('test_id')
+        return reverse('tests:test_edit', kwargs={'pk': test_id})
 
