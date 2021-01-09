@@ -10,7 +10,7 @@ from django.views.generic import CreateView, ListView, UpdateView,\
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS, MINIMUM_QUESTIONS, HOME_URL_LITERAL, TEST_EDIT_LITERAL
 from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm, \
-    CreateCommentForm
+    CreateCommentForm, TestPassForm
 from tests.models import Test, TestsUser, Question, Comment
 
 
@@ -192,3 +192,22 @@ class CommentCreateView(CreateView):
     def get_success_url(self):
         test_id = self.request.POST.get('test_id')
         return reverse('tests:test_detail', kwargs={'pk': test_id})
+
+
+@method_decorator(login_required, name='dispatch')
+class TestPassView(DetailView):
+    """
+    Test page
+    """
+    model = Test
+    template_name = 'test_pass.html'
+
+    # Add  to context
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        questions = self.object.test_questions.all()
+        test_form = TestPassForm(questions=questions)
+
+        context.update({'test_form': test_form})
+        return context
+#

@@ -24,4 +24,4 @@
 
 back - python / django (versions to taste)
 
-front - minimal, you can bootstrap / jquery
+front - minimal, bootstrap / jquery

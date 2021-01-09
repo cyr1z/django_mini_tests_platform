@@ -2,7 +2,8 @@ from django.urls import path
 
 from tests.views import UserLogin, UserLogout, Register, TestsView, \
     TestUpdateView, CreateTestView, UserDetailView, MyTestsView, \
-    QuestionCreateView, DeleteQuestionView, TestDetailView, CommentCreateView
+    QuestionCreateView, DeleteQuestionView, TestDetailView, CommentCreateView, \
+    TestPassView
 
 app_name = 'tests'
 urlpatterns = [
@@ -17,6 +18,7 @@ urlpatterns = [
     path('create_test/', CreateTestView.as_view(), name="create_test"),
     path('add_question/', QuestionCreateView.as_view(), name="add_question"),
     path('test/<int:pk>/', TestDetailView.as_view(), name='test_detail'),
+    path('test_pass/<int:pk>/', TestPassView.as_view(), name='test_pass'),
     path('delete_question/<int:pk>/', DeleteQuestionView.as_view(),
          name='delete_question'),
 

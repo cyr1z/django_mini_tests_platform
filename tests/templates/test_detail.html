@@ -75,7 +75,7 @@
                                             </div>
 
                                 {% else %}
-                                    <a href="{% url 'tests:tests' %}" class="btn btn-outline-info btn-block"><i data-feather="play"></i>
+                                    <a href="{% url 'tests:test_pass' test.id %}" class="btn btn-outline-info btn-block"><i data-feather="play"></i>
                     </i> Play</a>
                                 {% endif %}
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.forms import ModelForm
+from django.forms.widgets import RadioSelect
 
 from tests.models import TestsUser, Test, Question, Comment
 
@@ -60,3 +61,21 @@ class CreateCommentForm(ModelForm):
         fields = [
             'text',
         ]
+
+
+class TestPassForm(forms.Form):
+    def __init__(self, questions, *args, **kwargs):
+        super(TestPassForm, self).__init__(*args, **kwargs)
+        for question in questions:
+
+            choice_list = (
+                (1, question.answer_one),
+                (2, question.answer_two),
+                (3, question.answer_three),
+                (4, question.answer_four),
+            )
+            self.fields[question.id] = forms.ChoiceField(
+                choices=choice_list,
+                widget=RadioSelect,
+                label=question.text
+            )
