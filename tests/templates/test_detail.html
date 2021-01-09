@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %} test {{ test.title }}{% endblock title %}
+{% block content %}
+<div class="container emp-profile">
+                <div class="row">
+                    <div class="col-md-2">
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>test</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.title }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>about</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.description }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>question count</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.question_count }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>pass count</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.password_count }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>created at</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.created_at }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>author</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ test.author }}</p>
+                                            </div>
+                                        </div>
+                                {% if test.draft %}
+                                <div class="row">
+                                            <div class="col-md-6">
+                                            </div>
+                                            <div class="col-md-6 alert alert-dark">
+                                                <h2>DRAFT</h2>
+                                            </div>
+                                        </div>
+                                {% endif %}
+
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Experience</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Hourly Rate</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>10$/hr</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Total Projects</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>230</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>English Level</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Availability</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>6 months</p>
+                                            </div>
+                                        </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Your Bio</label><br/>
+                                        <p>Your detail description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+    {% endblock content %}

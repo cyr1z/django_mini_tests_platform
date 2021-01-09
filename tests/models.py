@@ -67,7 +67,7 @@ class Test(models.Model):
         return self.users_who_passed_test.count()
 
     def save(self, *args, **kwargs):
-        # the session is draft, while don't have 4 questions
+        # the session is draft, while don't have MINIMUM questions
         if self.test_questions.count() < MINIMUM_QUESTIONS:
             self.draft = True
         super().save(*args, **kwargs)

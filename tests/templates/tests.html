@@ -16,7 +16,7 @@
         <tbody>
             {% for test in test_list %}
             <tr>
-                <td>{{ test.title }}</td>
+                <td><a href="{% url 'tests:test_detail' test.id %}">{{ test.title }}</a></td>
                 <td>{{ test.pass_count }}</td>
                 <td>{{ test.question_count }}</td>
                 <td>{{ test.created_at }}</td>

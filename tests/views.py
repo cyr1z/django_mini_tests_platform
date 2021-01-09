@@ -1,18 +1,14 @@
-from bootstrap_modal_forms.generic import BSModalCreateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-
-# Create your views here.
-from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView, DetailView, \
-    DeleteView
+from django.views.generic import CreateView, ListView, UpdateView,\
+    DetailView, DeleteView
 
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
-    TESTS_ORDERINGS, MINIMUM_QUESTIONS
+    TESTS_ORDERINGS, MINIMUM_QUESTIONS, HOME_URL_LITERAL, TEST_EDIT_LITERAL
 from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm
 from tests.models import Test, TestsUser, Question
 
@@ -20,8 +16,8 @@ from tests.models import Test, TestsUser, Question
 class UserLogin(LoginView):
     """ login """
     template_name = 'login.html'
-    next_page = reverse_lazy('tests:tests')
-    success_url = reverse_lazy('tests:tests')
+    next_page = reverse_lazy(HOME_URL_LITERAL)
+    success_url = reverse_lazy(HOME_URL_LITERAL)
 
 
 class Register(CreateView):
@@ -34,8 +30,8 @@ class Register(CreateView):
 @method_decorator(login_required, name='dispatch')
 class UserLogout(LogoutView):
     """ Logout """
-    next_page = reverse_lazy('tests:tests')
-    success_url = reverse_lazy('tests:tests')
+    next_page = reverse_lazy(HOME_URL_LITERAL)
+    success_url = reverse_lazy(HOME_URL_LITERAL)
     redirect_field_name = 'next'
 
 
@@ -63,19 +59,24 @@ class TestsView(ListView):
             ordering = DEFAULT_TESTS_ORDERING
         return ordering
 
-    # Add  to context
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(object_list=object_list, **kwargs)
-    #     return context
-
 
 @method_decorator(login_required, name='dispatch')
 class MyTestsView(TestsView):
     """
     List of active user tests
     """
+
     def get_queryset(self):
         return Test.objects.filter(author=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class TestDetailView(DetailView):
+    """
+    Test page
+    """
+    model = Test
+    template_name = 'test_detail.html'
 
 
 @method_decorator(login_required, name='dispatch')
@@ -118,7 +119,7 @@ class CreateTestView(CreateView):
 
     def get_success_url(self):
         obj_id = self.object.id
-        return reverse('tests:test_edit', kwargs={'pk': obj_id})
+        return reverse(TEST_EDIT_LITERAL, kwargs={'pk': obj_id})
 
     def form_valid(self, form):
         test = form.save(commit=False)
@@ -146,7 +147,7 @@ class QuestionCreateView(CreateView):
 
     def get_success_url(self):
         test_id = self.request.POST.get('test_id')
-        return reverse('tests:test_edit', kwargs={'pk': test_id})
+        return reverse(TEST_EDIT_LITERAL, kwargs={'pk': test_id})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -158,4 +159,4 @@ class DeleteQuestionView(DeleteView):
 
     def get_success_url(self):
         test_id = self.request.POST.get('test_id')
-        return reverse('tests:test_edit', kwargs={'pk': test_id})
+        return reverse(TEST_EDIT_LITERAL, kwargs={'pk': test_id})
