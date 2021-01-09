@@ -16,7 +16,11 @@
         <tbody>
             {% for test in test_list %}
             <tr>
-                <td><a href="{% url 'tests:test_detail' test.id %}">{{ test.title }}</a></td>
+                <td>{% if test.draft %}
+                <div class="mic-info font-italic badge badge-dark">draft</div>
+                {% endif %} <a href="{% url 'tests:test_detail' test.id %}">{{ test.title }}</a>
+
+                </td>
                 <td>{{ test.pass_count }}</td>
                 <td>{{ test.question_count }}</td>
                 <td>{{ test.created_at }}</td>

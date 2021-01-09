@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% block title %} test {{ test.title }}{% endblock title %}
 {% block content %}
-<div class="container emp-profile">
+
+
+<div class="container emp-profile" style="margin-top: 30px">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-6 ">
 
                     </div>
 
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
 
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-10 offset-md-2">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                         <div class="row">
@@ -44,7 +44,7 @@
                                                 <label>pass count</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{ test.password_count }}</p>
+                                                <p>{{ test.pass_count }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -63,66 +63,62 @@
                                                 <p>{{ test.author }}</p>
                                             </div>
                                         </div>
-                                {% if test.draft %}
-                                <div class="row">
-                                            <div class="col-md-6">
-                                            </div>
-                                            <div class="col-md-6 alert alert-dark">
-                                                <h2>DRAFT</h2>
-                                            </div>
-                                        </div>
-                                {% endif %}
 
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Experience</label>
+                            <div class="col-md-4 offset-md-3">
+                             <div class="row">
+                                {% if test.draft %}
+
+
+                                            <div class="col-md-6 alert alert-dark">
+                                                <h3>DRAFT</h3>
                                             </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
+
+                                {% else %}
+                                    <a href="{% url 'tests:tests' %}" class="btn btn-outline-info btn-block"><i data-feather="play"></i>
+                    </i> Play</a>
+                                {% endif %}
+
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Hourly Rate</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>10$/hr</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Total Projects</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>230</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>English Level</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Availability</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>6 months</p>
-                                            </div>
-                                        </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Your Bio</label><br/>
-                                        <p>Your detail description</p>
+                    </div>
+                        </div>
+
+        <div class="panel panel-default widget">
+            <div class="panel-body">
+            <form method="post" action="{% url "tests:comment"%}">{% csrf_token %}<input type="hidden" name="test_id" value="{{ test.id }}">
+
+            <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="/media/{{ request.user.avatar }}" width="40">
+{% for field in add_comment_form %}
+                    {{ field }}
+                    {% endfor %}
+{#                <input type="text" class="form-control mr-3" placeholder="Add comment">#}
+
+                <button class="btn btn-primary" type="submit">Comment</button></div>
+            </form>
+                <ul class="list-group">
+                    {% for tests_comment in test.tests_comments.all %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-2">
+                                <img src="/media/{{ tests_comment.user.avatar }}" class="img-fluid img-responsive rounded-circle mr-2" width="45" alt="{{ tests_comment.user.full_name }}" /></div>
+                            <div class="col-xs-10 col-md-10">
+                                <div>
+                                    <div class="mic-info font-italic badge badge-lite">
+                                        By: {{ tests_comment.user.full_name }} on {{ tests_comment.created_at }}
                                     </div>
                                 </div>
+                                <div class="comment-text">
+                                    {{ tests_comment.text }}
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                </div></div>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
     {% endblock content %}

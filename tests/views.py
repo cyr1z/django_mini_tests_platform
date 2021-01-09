@@ -9,8 +9,9 @@ from django.views.generic import CreateView, ListView, UpdateView,\
 
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS, MINIMUM_QUESTIONS, HOME_URL_LITERAL, TEST_EDIT_LITERAL
-from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm
-from tests.models import Test, TestsUser, Question
+from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm, \
+    CreateCommentForm
+from tests.models import Test, TestsUser, Question, Comment
 
 
 class UserLogin(LoginView):
@@ -77,6 +78,15 @@ class TestDetailView(DetailView):
     """
     model = Test
     template_name = 'test_detail.html'
+
+    # Add  to context
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        comment_form = CreateCommentForm(self.request.POST or None)
+        comment_form.fields['text'].widget.attrs.update(
+            {'class': 'form-control mr-3'})
+        context.update({'add_comment_form': comment_form})
+        return context
 
 
 @method_decorator(login_required, name='dispatch')
@@ -160,3 +170,25 @@ class DeleteQuestionView(DeleteView):
     def get_success_url(self):
         test_id = self.request.POST.get('test_id')
         return reverse(TEST_EDIT_LITERAL, kwargs={'pk': test_id})
+
+
+@method_decorator(login_required, name='dispatch')
+class CommentCreateView(CreateView):
+    """
+    Create comment
+    """
+    form_class = CreateCommentForm
+    model = Comment
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        test_id = self.request.POST.get('test_id')
+        test = Test.objects.get(id=test_id)
+        comment.test = test
+        comment.user = self.request.user
+        comment.save()
+        return super().form_valid(form=form)
+
+    def get_success_url(self):
+        test_id = self.request.POST.get('test_id')
+        return reverse('tests:test_detail', kwargs={'pk': test_id})

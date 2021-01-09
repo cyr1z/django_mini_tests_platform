@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.forms import ModelForm
 
-from tests.models import TestsUser, Test, Question
+from tests.models import TestsUser, Test, Question, Comment
 
 
 class SignUpForm(UserCreationForm):
@@ -51,4 +51,12 @@ class CreateQuestionForm(ModelForm):
             'answer_three',
             'answer_four',
             'right_answer',
+        ]
+
+
+class CreateCommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = [
+            'text',
         ]
