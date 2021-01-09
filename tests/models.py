@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
+from django_tests_mini_platform.settings import MINIMUM_QUESTIONS
+
 
 class TestsUser(AbstractUser):
     """
@@ -66,7 +68,7 @@ class Test(models.Model):
 
     def save(self, *args, **kwargs):
         # the session is draft, while don't have 4 questions
-        if self.test_questions.count() < 4:
+        if self.test_questions.count() < MINIMUM_QUESTIONS:
             self.draft = True
         super().save(*args, **kwargs)
 

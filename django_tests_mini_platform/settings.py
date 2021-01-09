@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tests.apps.TestsConfig',
     'crispy_forms',
-    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +142,4 @@ TESTS_ORDERINGS = ['created_at', ]
 DEFAULT_TESTS_ORDERING = 'created_at'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MINIMUM_QUESTIONS = 5

@@ -6,14 +6,14 @@
 
 {% block content %}
      {% if messages %}
-                        <ul class="messages">
+{#                        <ul class="messages">#}
                         {% for message in messages %}
-                            <li{% if message.tags %} class="alert alert-warning"{% endif %}>
+                            <div{% if message.tags %} class="alert alert-warning alert-dismissible fade show" role="alert"{% endif %}>
                                 {{ message }}
                             {{ error|escape }}
-                            </li>
+                            </div>
                         {% endfor %}
-                        </ul>
+{#                        </ul>#}
                     {% endif %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -31,21 +31,28 @@
           <div class="row">
                       <div class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
             <h2> &nbsp;</h2>
-                <button class="btn btn-info btn-block" data-toggle="modal" data-target="#addQuestionModal"><i data-feather="file-plus"> </i> Add question</button>
-
+                <button class="btn btn-info btn-block " data-toggle="modal" data-target="#addQuestionModal"><i data-feather="file-plus"> </i> Add question</button>
+                      </div><div class="col-12 col-sm-8 col-md-6 col-lg-8 offset-sm-2 offset-md-3 offset-lg-2">
              <table class="table table-hover ">
 
 
         <tbody>
                  {% for question in object.test_questions.all %}
-            <tr>
-                <td>{{ question.text }}</td>
+            <tr >
+                <td class="align-middle">{{ question.text }}</td>
 
 
-                    <td><a href="{% url 'tests:test_edit' test.id %}" class="btn btn-outline-warning btn-sm"><i data-feather="edit"></i>
-                        </i> Edit</a></td>
-                    <td><a href="{% url 'tests:tests' %}" class="btn btn-outline-danger btn-sm"><i data-feather="delete"></i>
-                    </i> Delete</a></td>
+{#                    <td><a href="{% url 'tests:test_edit' test.id %}" class="btn btn-outline-warning btn-sm"><i data-feather="edit"></i>#}
+{#                        </i> Edit</a></td>#}
+                    <td class=" align-middle text-right">
+                    <form method="POST"
+                              action="{% url "tests:delete_question"  question.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="test_id" id="test_id" value="{{ test.id }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm"><i data-feather="delete"></i>
+                    </i> Delete</button>
+                        </form>
+
 
 
             </tr>
@@ -61,7 +68,7 @@
 <div class="modal fade" id="addQuestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <<form method="post" action="/add_question/">
+        <form method="post" action="{% url "tests:add_question"%}">
   {% csrf_token %}
 
  <div class="modal-header">

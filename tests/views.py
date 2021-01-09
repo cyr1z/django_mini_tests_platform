@@ -8,10 +8,11 @@ from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView, \
+    DeleteView
 
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
-    TESTS_ORDERINGS
+    TESTS_ORDERINGS, MINIMUM_QUESTIONS
 from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm
 from tests.models import Test, TestsUser, Question
 
@@ -92,8 +93,9 @@ class TestUpdateView(UpdateView):
         test = self.object
         test.author = self.request.user
         question_count = Question.objects.filter(test=test).count()
-        if question_count < 4 and not test.draft:
-            messages.error(self.request, "this test doesnt have 4 questions")
+        if question_count < MINIMUM_QUESTIONS and not test.draft:
+            alert_msg = f"this test doesnt have {MINIMUM_QUESTIONS} questions"
+            messages.error(self.request, alert_msg)
             return HttpResponseRedirect(
                 self.request.META.get('HTTP_REFERER'))
 
@@ -128,6 +130,9 @@ class CreateTestView(CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class QuestionCreateView(CreateView):
+    """
+    Create question
+    """
     form_class = CreateQuestionForm
     model = Question
 
@@ -143,3 +148,14 @@ class QuestionCreateView(CreateView):
         test_id = self.request.POST.get('test_id')
         return reverse('tests:test_edit', kwargs={'pk': test_id})
 
+
+@method_decorator(login_required, name='dispatch')
+class DeleteQuestionView(DeleteView):
+    """
+    Delete question
+    """
+    model = Question
+
+    def get_success_url(self):
+        test_id = self.request.POST.get('test_id')
+        return reverse('tests:test_edit', kwargs={'pk': test_id})
