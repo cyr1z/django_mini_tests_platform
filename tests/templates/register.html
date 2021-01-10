@@ -12,7 +12,7 @@
               <form class="mb-3" method="POST" action="">
                 {% csrf_token %}
 		        {{form|crispy}}
-		        <input type="submit" class="btn btn-info btn-block mb-3" value="{{ title }}"> 
+		        <button type="submit" class="btn btn-info btn-block mb-3" value="Submit">Sign Up</button>
               </form>
               <div class="text-center">
                 <p>or ...</p>

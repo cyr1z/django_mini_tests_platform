@@ -15,7 +15,6 @@
                 <div class="row">
 
                     <div class="col-md-10 offset-md-1">
-                        <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -34,18 +33,18 @@
                                             </div>
                                         </div>
 
-                            </div>
+
                             <div class="col-md-4 offset-md-3">
 
                     </div>
                         </div>
 
-        <div class="panel panel-default widget">
+        <div class="form-group">
             <div class="panel-body">
             <form method="post" action="{% url "tests:tests"%}">{% csrf_token %}<input type="hidden" name="test_id" value="{{ test.id }}">
 {#                        {{ test_form|crispy }}#}
                     {% for field in test_form %}
-                        <div class="my-3 p-3 bg-white rounded box-shadow lead">
+                        <div class="my-3 p-3 bg-white rounded box-shadow  form-row" style="box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 3px;">
                     {{ field|as_crispy_field }}
                         </div>
                     {% endfor %}
