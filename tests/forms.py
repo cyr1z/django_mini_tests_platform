@@ -79,3 +79,8 @@ class TestPassForm(forms.Form):
                 widget=RadioSelect,
                 label=question.text
             )
+
+
+class SearchBoxForm(forms.Form):
+    q = forms.CharField()
+

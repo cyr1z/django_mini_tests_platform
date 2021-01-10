@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -10,7 +11,7 @@ from django.views.generic import CreateView, ListView, UpdateView, \
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS, MINIMUM_QUESTIONS, HOME_URL_LITERAL, TEST_EDIT_LITERAL
 from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm, \
-    CreateCommentForm, TestPassForm
+    CreateCommentForm, TestPassForm, SearchBoxForm
 from tests.models import Test, TestsUser, Question, Comment, PassedTests
 
 
@@ -59,7 +60,8 @@ class TestsView(ListView):
     paginate_by = 10
     template_name = 'tests.html'
 
-    queryset = Test.objects.filter(draft=False)
+    queryset = Test.objects.all()
+    base_filter = Q(draft=False)
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', DEFAULT_TESTS_ORDERING)
@@ -67,6 +69,25 @@ class TestsView(ListView):
         if ordering not in TESTS_ORDERINGS:
             ordering = DEFAULT_TESTS_ORDERING
         return ordering
+
+    def get_queryset(self):
+        search = self.request.GET.get('q')
+        passed = self.request.GET.get('passed')
+        # query = Q(author=self.request.user)
+        query = self.base_filter
+        if search:
+            query &= Q(title__icontains=search)
+        # if passed and passed in ['passed', 'unmatched']:
+        #     query &= Q(user_who_passed_test__contains=self.request.user)
+        return self.queryset.filter(query)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'search_form': SearchBoxForm,
+        })
+        return context
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -76,7 +97,9 @@ class MyTestsView(TestsView):
     """
 
     def get_queryset(self):
-        return Test.objects.filter(author=self.request.user)
+        self.base_filter = Q(author=self.request.user)
+        return super().get_queryset()
+
 
 
 @method_decorator(login_required, name='dispatch')
