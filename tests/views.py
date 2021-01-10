@@ -73,12 +73,14 @@ class TestsView(ListView):
     def get_queryset(self):
         search = self.request.GET.get('q')
         passed = self.request.GET.get('passed')
-        # query = Q(author=self.request.user)
         query = self.base_filter
         if search:
             query &= Q(title__icontains=search)
-        # if passed and passed in ['passed', 'unmatched']:
-        #     query &= Q(user_who_passed_test__contains=self.request.user)
+        if passed and passed in ['passed', 'unmatched']:
+            if passed == 'passed':
+                query &= Q(users_who_passed_test=self.request.user)
+            else:
+                query &= ~Q(users_who_passed_test=self.request.user)
         return self.queryset.filter(query)
 
     def get_context_data(self, **kwargs):

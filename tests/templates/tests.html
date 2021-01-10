@@ -6,8 +6,9 @@
 <div class="container">
 <div class="row" style="margin-top: 20px;">
     	<div class="col-lg-3">
-            <div class="input-group custom-search-form"><form method="get" action="">
-              <input type="text" class="form-control" placeholder="Search" name="q">
+            <div class="input-group custom-search-form">
+                <form method="get" action="">
+              <input type="text" class="form-control " placeholder="Search" name="q">
               <span class="input-group-btn">
               <button class="btn btn-default" type="button">
               <span class="glyphicon glyphicon-search"></span>
@@ -16,6 +17,35 @@
              </div><!-- /input-group -->
             </form>
         </div>
+<form method="get" action="">
+     <button class="btn btn-default invisible" type="submit" style="margin-top: -5px; height: 35px">
+    <div class="btn-group btn-group-toggle btn-group-sm visible" data-toggle="buttons" style="height: 35px;">
+
+  <label class="btn btn-outline-secondary active">
+    <input type="radio" name="passed" id="0" autocomplete="off" value="all"
+           {% if not request.GET.passed or request.GET.passed == 'all'%}
+           checked
+           {% endif %}
+    > &nbsp; &nbsp;All &nbsp; &nbsp;
+  </label>
+  <label class="btn btn-outline-secondary">
+    <input type="radio" name="passed" id="1" value="passed" autocomplete="off"
+           {% if request.GET.passed == 'passed'%}
+           checked
+           {% endif %}
+>  &nbsp;Passed &nbsp;
+  </label>
+  <label class="btn btn-outline-secondary">
+    <input type="radio" name="passed" id="2" value="unmatched" autocomplete="off"
+           {% if request.GET.passed == 'unmatched'%}
+           checked
+           {% endif %}
+> Unmatched
+  </label>
+
+    </div>
+    </button>
+</form>
 {#    <form method="get" action="">#}
 {#        <div class="col-md-6">{{ search_form.q|as_crispy_field }}</div><div class="col-md-4">#}
 {#        <button type="submit" class="btn btn-outline-info btn-sm ">Search</button>#}
