@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView,\
+from django.views.generic import CreateView, ListView, UpdateView, \
     DetailView, DeleteView
 
 from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
@@ -82,8 +82,8 @@ class TestDetailView(DetailView):
     # Add  to context
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
-        score_block = self.request.user in \
-                      self.object.users_who_passed_test.all()
+        users_who_passed_test = self.object.users_who_passed_test.all()
+        score_block = self.request.user in users_who_passed_test
 
         if score_block:
             user_test_record = PassedTests.objects.get(
@@ -257,6 +257,9 @@ class TestCheckView(CreateView):
             'right_answers_count': right_answers_count,
             'question_count': question.count(),
         }
+
+        if test in self.request.user.tests.all():
+            self.request.user.tests.remove(test)
 
         self.request.user.tests.add(test, through_defaults=through_defaults)
 
