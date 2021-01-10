@@ -41,6 +41,14 @@ class UserDetailView(DetailView):
     model = TestsUser
     template_name = 'user_profile.html'
 
+    # Add  to context
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        test_pass_records = PassedTests.objects.filter(tests_user=self.object)
+
+        context.update({'test_pass_records': test_pass_records})
+        return context
+
 
 @method_decorator(login_required, name='dispatch')
 class TestsView(ListView):
