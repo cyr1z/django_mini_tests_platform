@@ -11,7 +11,7 @@ from django_tests_mini_platform.settings import DEFAULT_TESTS_ORDERING, \
     TESTS_ORDERINGS, MINIMUM_QUESTIONS, HOME_URL_LITERAL, TEST_EDIT_LITERAL
 from tests.forms import SignUpForm, CreateTestForm, CreateQuestionForm, \
     CreateCommentForm, TestPassForm
-from tests.models import Test, TestsUser, Question, Comment
+from tests.models import Test, TestsUser, Question, Comment, PassedTests
 
 
 class UserLogin(LoginView):
@@ -74,7 +74,7 @@ class MyTestsView(TestsView):
 @method_decorator(login_required, name='dispatch')
 class TestDetailView(DetailView):
     """
-    Test page
+    Test detail page
     """
     model = Test
     template_name = 'test_detail.html'
@@ -82,10 +82,28 @@ class TestDetailView(DetailView):
     # Add  to context
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
+        score_block = self.request.user in \
+                      self.object.users_who_passed_test.all()
+
+        if score_block:
+            user_test_record = PassedTests.objects.get(
+                tests_user=self.request.user,
+                passed_test=self.object
+            )
+            context.update({
+                'right_answers_count': user_test_record.right_answers_count,
+                'percentage': user_test_record.percentage,
+                'question_count': user_test_record.question_count,
+
+            })
+
         comment_form = CreateCommentForm(self.request.POST or None)
         comment_form.fields['text'].widget.attrs.update(
             {'class': 'form-control mr-3'})
-        context.update({'add_comment_form': comment_form})
+        context.update({
+            'add_comment_form': comment_form,
+            'score_block': score_block
+        })
         return context
 
 
@@ -210,4 +228,36 @@ class TestPassView(DetailView):
 
         context.update({'test_form': test_form})
         return context
-#
+
+
+@method_decorator(login_required, name='dispatch')
+class TestCheckView(CreateView):
+    """
+    Test check and create PassedTests relationship
+    """
+    form_class = TestPassForm
+
+    def get_success_url(self):
+        test_id = self.request.POST.get('test_id')
+        return reverse('tests:test_detail', kwargs={'pk': test_id})
+
+    def post(self, *args, **kwargs):
+        test_id = self.request.POST.get('test_id')
+        test = Test.objects.get(id=test_id)
+        question = test.test_questions.filter(test=test)
+        post_dict = self.request.POST.dict()
+        answers = {int(k): int(v) for k, v in post_dict.items() if k.isdigit()}
+
+        right_answers_count = 0
+        for k, v in answers.items():
+            if v == question.get(id=k).right_answer:
+                right_answers_count += 1
+
+        through_defaults = {
+            'right_answers_count': right_answers_count,
+            'question_count': question.count(),
+        }
+
+        self.request.user.tests.add(test, through_defaults=through_defaults)
+
+        return HttpResponseRedirect(self.get_success_url())

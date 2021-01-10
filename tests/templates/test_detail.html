@@ -63,6 +63,17 @@
                                                 <p>{{ test.author }}</p>
                                             </div>
                                         </div>
+                                {% if score_block %}
+
+                                <div class="row alert alert-info ">
+                                            <div class="col-md-6">
+                                                <h2>MY SCORE:</h2>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h2><span class="badge badge-info">{{ right_answers_count }} / {{ question_count }}</span>&nbsp;&nbsp;&nbsp;<span class="badge badge-success">{{ percentage }}%</span></h2>
+                                            </div>
+                                        </div>
+                                {% endif %}
 
                             </div>
                             <div class="col-md-4 offset-md-3">

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
 {% block title %} test {{ test.title }}{% endblock title %}
 {% block content %}
-    {% load crispy_forms_tags %}
-    {% load crispy_forms_field %}
+
 
 
 <div class="container emp-profile" style="margin-top: 30px">
@@ -41,17 +43,17 @@
 
         <div class="form-group">
             <div class="panel-body">
-            <form method="post" action="{% url "tests:tests"%}">{% csrf_token %}<input type="hidden" name="test_id" value="{{ test.id }}">
-{#                        {{ test_form|crispy }}#}
+            <form method="post" action="{% url "tests:test_check"%}">{% csrf_token %}<input type="hidden" name="test_id" value="{{ test.id }}">
+                <input type="hidden" name="test_id" id="test_id" value="{{ test.id }}">
+
                     {% for field in test_form %}
                         <div class="my-3 p-3 bg-white rounded box-shadow  form-row" style="box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 3px;">
                     {{ field|as_crispy_field }}
                         </div>
                     {% endfor %}
-{#                <input type="text" class="form-control mr-3" placeholder="Add comment">#}
 
-                <button class="btn btn-primary" type="submit">Submit</button></div>
-            </form>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form></div>
 
             </div>
         </div>
