@@ -14,7 +14,7 @@
               <span class="glyphicon glyphicon-search"></span>
              </button>
              </span>
-             </div><!-- /input-group -->
+            </div><!-- /input-group -->
             </form>
         </div>
 <form method="get" action="">
@@ -42,6 +42,29 @@
            {% endif %}
 > Unmatched
   </label>
+
+    </div>
+    </button>
+</form>
+<form method="get" action="">
+     <button class="btn btn-default invisible" type="submit" style="margin-top: -5px; height: 35px">
+    <div class="btn-group btn-group-toggle btn-group-sm visible" data-toggle="buttons" style="height: 35px;">
+
+  <label class="btn btn-outline-secondary active">
+    <input type="radio" name="ordering" id="0" autocomplete="off" value="created_at"
+           {% if not request.GET.ordering or request.GET.ordering == 'created_at'%}
+           checked
+           {% endif %}
+    > Old first
+  </label>
+  <label class="btn btn-outline-secondary">
+    <input type="radio" name="ordering" id="1" value="-created_at" autocomplete="off"
+           {% if request.GET.ordering == '-created_at'%}
+           checked
+           {% endif %}
+>  New first
+  </label>
+
 
     </div>
     </button>

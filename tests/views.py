@@ -63,25 +63,26 @@ class TestsView(ListView):
     queryset = Test.objects.all()
     base_filter = Q(draft=False)
 
-    def get_ordering(self):
-        ordering = self.request.GET.get('ordering', DEFAULT_TESTS_ORDERING)
-        # validate ordering
-        if ordering not in TESTS_ORDERINGS:
-            ordering = DEFAULT_TESTS_ORDERING
-        return ordering
-
     def get_queryset(self):
         search = self.request.GET.get('q')
         passed = self.request.GET.get('passed')
         query = self.base_filter
+
         if search:
             query &= Q(title__icontains=search)
+
         if passed and passed in ['passed', 'unmatched']:
             if passed == 'passed':
                 query &= Q(users_who_passed_test=self.request.user)
             else:
                 query &= ~Q(users_who_passed_test=self.request.user)
-        return self.queryset.filter(query)
+
+        ordering = self.request.GET.get('ordering', DEFAULT_TESTS_ORDERING)
+        # validate ordering
+        if ordering not in TESTS_ORDERINGS:
+            ordering = DEFAULT_TESTS_ORDERING
+
+        return self.queryset.filter(query).order_by(ordering)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -89,7 +90,6 @@ class TestsView(ListView):
             'search_form': SearchBoxForm,
         })
         return context
-
 
 
 @method_decorator(login_required, name='dispatch')
@@ -101,7 +101,6 @@ class MyTestsView(TestsView):
     def get_queryset(self):
         self.base_filter = Q(author=self.request.user)
         return super().get_queryset()
-
 
 
 @method_decorator(login_required, name='dispatch')
