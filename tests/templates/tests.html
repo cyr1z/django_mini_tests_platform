@@ -1,83 +1,94 @@
 {% extends 'base.html' %}
 {% block title %} Tests list{% endblock title %}
 {% block content %}
-{% load crispy_forms_tags %}
+    {% load crispy_forms_tags %}
     {% load crispy_forms_field %}
-<div class="container">
-<div class="row" style="margin-top: 20px;">
-    	<div class="col-lg-3">
-            <div class="input-group custom-search-form">
-                <form method="get" action="">
-              <input type="text" class="form-control " placeholder="Search" name="q">
-              <span class="input-group-btn">
+    <div class="container">
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-lg-3">
+                <div class="input-group custom-search-form">
+                    <form method="get" action="" class="foobar">
+                        <input type="text" class="form-control "
+                               placeholder="Search" name="q">
+                        <span class="input-group-btn">
               <button class="btn btn-default" type="button">
               <span class="glyphicon glyphicon-search"></span>
              </button>
              </span>
-            </div><!-- /input-group -->
+                    </form>
+                </div><!-- /input-group -->
+
+            </div>
+            <form method="get" action="" class="foobar">
+                <button class="btn btn-default invisible" type="submit"
+                        style="margin-top: -5px; height: 35px">
+                    <div class="btn-group btn-group-toggle btn-group-sm visible"
+                         data-toggle="buttons" style="height: 35px;">
+
+                        <label class="btn btn-outline-secondary active">
+                            <input type="radio" name="passed" id="0"
+                                   autocomplete="off" value="all"
+                                    {% if not request.GET.passed or request.GET.passed == 'all' %}
+                                   checked
+                                    {% endif %}
+                            > &nbsp; &nbsp;All &nbsp; &nbsp;
+                        </label>
+                        <label class="btn btn-outline-secondary">
+                            <input type="radio" name="passed" id="1"
+                                   value="passed" autocomplete="off"
+                                    {% if request.GET.passed == 'passed' %}
+                                   checked
+                                    {% endif %}
+                            > &nbsp;Passed &nbsp;
+                        </label>
+                        <label class="btn btn-outline-secondary">
+                            <input type="radio" name="passed" id="2"
+                                   value="unmatched" autocomplete="off"
+                                    {% if request.GET.passed == 'unmatched' %}
+                                   checked
+                                    {% endif %}
+                            > Unmatched
+                        </label>
+
+                    </div>
+                </button>
             </form>
+            <form method="get" action="" class="foobar">
+                <button class="btn btn-default invisible" type="submit"
+                        style="margin-top: -5px; height: 35px">
+                    <div class="btn-group btn-group-toggle btn-group-sm visible"
+                         data-toggle="buttons" style="height: 35px;">
+
+                        <label class="btn btn-outline-secondary active">
+                            <input type="radio" name="ordering" id="0"
+                                   autocomplete="off" value="created_at"
+                                    {% if not request.GET.ordering or request.GET.ordering == 'created_at' %}
+                                   checked
+                                    {% endif %}
+                            > Old first
+                        </label>
+                        <label class="btn btn-outline-secondary">
+                            <input type="radio" name="ordering" id="1"
+                                   value="-created_at" autocomplete="off"
+                                    {% if request.GET.ordering == '-created_at' %}
+                                   checked
+                                    {% endif %}
+                            > New first
+                        </label>
+
+
+                    </div>
+                </button>
+            </form>
+            {#    <form method="get" action="">#}
+            {#        <div class="col-md-6">{{ search_form.q|as_crispy_field }}</div><div class="col-md-4">#}
+            {#        <button type="submit" class="btn btn-outline-info btn-sm ">Search</button>#}
+            {#                    </div>#}
+            {#    </form>#}
         </div>
-<form method="get" action="">
-     <button class="btn btn-default invisible" type="submit" style="margin-top: -5px; height: 35px">
-    <div class="btn-group btn-group-toggle btn-group-sm visible" data-toggle="buttons" style="height: 35px;">
+        <table class="table table-hover ">
 
-  <label class="btn btn-outline-secondary active">
-    <input type="radio" name="passed" id="0" autocomplete="off" value="all"
-           {% if not request.GET.passed or request.GET.passed == 'all'%}
-           checked
-           {% endif %}
-    > &nbsp; &nbsp;All &nbsp; &nbsp;
-  </label>
-  <label class="btn btn-outline-secondary">
-    <input type="radio" name="passed" id="1" value="passed" autocomplete="off"
-           {% if request.GET.passed == 'passed'%}
-           checked
-           {% endif %}
->  &nbsp;Passed &nbsp;
-  </label>
-  <label class="btn btn-outline-secondary">
-    <input type="radio" name="passed" id="2" value="unmatched" autocomplete="off"
-           {% if request.GET.passed == 'unmatched'%}
-           checked
-           {% endif %}
-> Unmatched
-  </label>
-
-    </div>
-    </button>
-</form>
-<form method="get" action="">
-     <button class="btn btn-default invisible" type="submit" style="margin-top: -5px; height: 35px">
-    <div class="btn-group btn-group-toggle btn-group-sm visible" data-toggle="buttons" style="height: 35px;">
-
-  <label class="btn btn-outline-secondary active">
-    <input type="radio" name="ordering" id="0" autocomplete="off" value="created_at"
-           {% if not request.GET.ordering or request.GET.ordering == 'created_at'%}
-           checked
-           {% endif %}
-    > Old first
-  </label>
-  <label class="btn btn-outline-secondary">
-    <input type="radio" name="ordering" id="1" value="-created_at" autocomplete="off"
-           {% if request.GET.ordering == '-created_at'%}
-           checked
-           {% endif %}
->  New first
-  </label>
-
-
-    </div>
-    </button>
-</form>
-{#    <form method="get" action="">#}
-{#        <div class="col-md-6">{{ search_form.q|as_crispy_field }}</div><div class="col-md-4">#}
-{#        <button type="submit" class="btn btn-outline-info btn-sm ">Search</button>#}
-{#                    </div>#}
-{#    </form>#}
-</div>
-    <table class="table table-hover ">
-
-        <thead>
+            <thead>
             <tr>
                 <th>title</th>
                 <th>pass count</th>
@@ -86,29 +97,54 @@
                 <th></th>
 
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for test in test_list %}
-            <tr>
-                <td>{% if test.draft %}
-                <div class="mic-info font-italic badge badge-dark">draft</div>
-                {% endif %} <a href="{% url 'tests:test_detail' test.id %}">{{ test.title }}</a>
+                <tr>
+                    <td>{% if test.draft %}
+                        <div class="mic-info font-italic badge badge-dark">
+                            draft
+                        </div>
+                    {% endif %} <a
+                            href="{% url 'tests:test_detail' test.id %}">{{ test.title }}</a>
 
-                </td>
-                <td>{{ test.pass_count }}</td>
-                <td>{{ test.question_count }}</td>
-                <td>{{ test.created_at }}</td>
-                {% if 'mytest' in request.path %}
-                    <td><a href="{% url 'tests:test_edit' test.id %}" class="btn btn-outline-warning btn-sm"><i data-feather="edit"></i>
-                    </i> Edit</a></td>
-                {% else %}
-                    <td><a href="{% url 'tests:test_pass' test.id %}" class="btn btn-outline-info btn-sm"><i data-feather="play"></i>
-                    </i> Play</a></td>
+                    </td>
+                    <td>{{ test.pass_count }}</td>
+                    <td>{{ test.question_count }}</td>
+                    <td>{{ test.created_at }}</td>
+                    {% if 'mytest' in request.path %}
+                        <td><a href="{% url 'tests:test_edit' test.id %}"
+                               class="btn btn-outline-warning btn-sm"><i
+                                data-feather="edit"></i>
+                            Edit</a></td>
+                    {% else %}
+                        <td><a href="{% url 'tests:test_pass' test.id %}"
+                               class="btn btn-outline-info btn-sm"><i
+                                data-feather="play"></i>
+                            Play</a></td>
 
-                {% endif %}
-            </tr>
+                    {% endif %}
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
+
 {% endblock content %}
+{% block js %}
+    <script>
+        function addParam(currentUrl, key, val) {
+            var url = new URL(currentUrl);
+            url.searchParams.set(key, val);
+
+            return url.href;
+        }
+
+        $(document).ready(function () {
+            $(".foobar").submit(function (event) {
+                event.preventDefault();
+                let my_attr = $(this).serializeArray()
+                window.location.href = addParam(window.location.href, my_attr[0].name, my_attr[0].value)
+            });
+        });
+    </script>{% endblock %}

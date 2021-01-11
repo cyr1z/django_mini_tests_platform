@@ -81,7 +81,7 @@
                     {% endif %}
 
                 </div>
-                <div class="col-md-4 offset-md-3">
+                <div class="col-md-4 offset-md-4">
                     <div class="row">
                         {% if test.draft %}
 
@@ -108,11 +108,10 @@
                         <div class="d-flex flex-row add-comment-section mt-4 mb-4">
                             <img class="img-fluid img-responsive rounded-circle mr-2"
                                  src="/media/{{ request.user.avatar }}"
-                                 width="40">
+                                 width="40" alt="{{ request.user.full_name }}">
                             {% for field in add_comment_form %}
                                 {{ field }}
                             {% endfor %}
-                            {#                <input type="text" class="form-control mr-3" placeholder="Add comment">#}
 
                             <button class="btn btn-primary" type="submit">
                                 Comment
@@ -149,5 +148,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div></div>
 {% endblock content %}
