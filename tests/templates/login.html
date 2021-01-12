@@ -13,11 +13,12 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{form|crispy}}
-                    <input type="submit" class="btn btn-primary btn-block" value="Login">
+                    <button type="submit" class="btn btn-primary btn-block" value="Login"><i data-feather="log-in"></i> Log in</button>
                 </form>
               <div class="text-center">
                 <p>or ...</p>
-                <a href="{% url 'tests:register' %}" class="btn btn-success mb-3">Create account</a>
+                <a href="{% url 'tests:register' %}" class="btn btn-success mb-3"><i data-feather="user-plus"></i> Create account</a>
+                  <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-danger mb-3">Sign up with Google</a>
               </div>
             </div>
           </div>

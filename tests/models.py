@@ -10,12 +10,16 @@ class TestsUser(AbstractUser):
     Customised Django User Model
     Add about, avatar and date_of_birth
     """
-    about = models.CharField(max_length=4096)
+    about = models.CharField(
+        max_length=4096,
+        null=True,
+        blank=True,
+    )
     date_of_birth = models.DateField(blank=True, null=True)
     avatar = models.ImageField(
         verbose_name='avatar',
         upload_to='avatars',
-        default='static/default_avatar.png',
+        default='default_avatar.png',
         null=True,
         blank=True,
     )

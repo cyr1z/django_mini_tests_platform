@@ -274,8 +274,7 @@ class TestCheckView(CreateView):
         return reverse('tests:test_detail', kwargs={'pk': test_id})
 
     def post(self, *args, **kwargs):
-        test_id = self.request.POST.get('test_id')
-        test = Test.objects.get(id=test_id)
+        test = Test.objects.get(id=self.request.POST.get('test_id'))
         question = test.test_questions.filter(test=test)
         post_dict = self.request.POST.dict()
         answers = {int(k): int(v) for k, v in post_dict.items() if k.isdigit()}

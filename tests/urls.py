@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from tests.views import UserLogin, UserLogout, Register, TestsView, \
     TestUpdateView, CreateTestView, UserDetailView, MyTestsView, \

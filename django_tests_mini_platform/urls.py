@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('tests.urls')),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 
 

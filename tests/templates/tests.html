@@ -9,7 +9,7 @@
                 <div class="input-group custom-search-form">
                     <form method="get" action="" class="foobar">
                         <input type="text" class="form-control "
-                               placeholder="Search" name="q">
+                               placeholder="{% if request.GET.q %}{{ request.GET.q }}{% else %}Search{% endif %}" name="q">
                         <span class="input-group-btn">
               <button class="btn btn-default" type="button">
               <span class="glyphicon glyphicon-search"></span>
