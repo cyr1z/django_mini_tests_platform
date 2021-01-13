@@ -102,7 +102,7 @@ class PassedTests(models.Model):
         verbose_name_plural = "Passed tests"
 
     def __str__(self):
-        return f'test: "{self.passed_test.title}" -' \
+        return f'"{self.passed_test.title}" -' \
                f' {self.tests_user.full_name}:  ' \
                f'{self.right_answers_count} right / {self.percentage}%'
 

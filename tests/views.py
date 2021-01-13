@@ -57,7 +57,7 @@ class TestsView(ListView):
     List of tests
     """
     model = Test
-    paginate_by = 10
+    paginate_by = 15
     template_name = 'tests.html'
 
     queryset = Test.objects.all()
