@@ -1,0 +1,164 @@
+[
+  {
+    "model": "tests.test",
+    "pk": 1,
+    "fields": {
+      "title": "Math basic",
+      "description": "Math basic test _",
+      "created_at": "2021-01-05T11:07:09Z",
+      "draft": false,
+      "author": 1
+    }
+  },
+  {
+    "model": "tests.test",
+    "pk": 2,
+    "fields": {
+      "title": "Simple  math",
+      "description": "Simple test",
+      "created_at": "2021-01-08T18:55:44.720Z",
+      "draft": true,
+      "author": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 1,
+    "fields": {
+      "text": "7 * 8 = ?",
+      "answer_one": "56",
+      "answer_two": "5",
+      "answer_three": "6",
+      "answer_four": "78",
+      "right_answer": 1,
+      "picture": "",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 2,
+    "fields": {
+      "text": "7 * 7 = ?",
+      "answer_one": "49",
+      "answer_two": "47",
+      "answer_three": "77",
+      "answer_four": "7",
+      "right_answer": 1,
+      "picture": "",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 3,
+    "fields": {
+      "text": "12 / 4 = ?",
+      "answer_one": "3",
+      "answer_two": "33",
+      "answer_three": "4",
+      "answer_four": "6",
+      "right_answer": 1,
+      "picture": "",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 4,
+    "fields": {
+      "text": "6 - 5 = ?",
+      "answer_one": "1",
+      "answer_two": "2",
+      "answer_three": "65",
+      "answer_four": "22",
+      "right_answer": 1,
+      "picture": "",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 5,
+    "fields": {
+      "text": "9 / 3 = ?",
+      "answer_one": "3",
+      "answer_two": "56",
+      "answer_three": "49.7",
+      "answer_four": "11",
+      "right_answer": 1,
+      "picture": "",
+      "test": 1
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 6,
+    "fields": {
+      "text": "7 * 3 = ?",
+      "answer_one": "56",
+      "answer_two": "21",
+      "answer_three": "6",
+      "answer_four": "78",
+      "right_answer": 2,
+      "picture": "",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 7,
+    "fields": {
+      "text": "5 * 7 = ?",
+      "answer_one": "49",
+      "answer_two": "35",
+      "answer_three": "77",
+      "answer_four": "7",
+      "right_answer": 2,
+      "picture": "",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 8,
+    "fields": {
+      "text": "15 / 5 = ?",
+      "answer_one": "3",
+      "answer_two": "33",
+      "answer_three": "4",
+      "answer_four": "6",
+      "right_answer": 1,
+      "picture": "",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 9,
+    "fields": {
+      "text": "10 * 5 = ?",
+      "answer_one": "1",
+      "answer_two": "2",
+      "answer_three": "50",
+      "answer_four": "22",
+      "right_answer": 3,
+      "picture": "",
+      "test": 2
+    }
+  },
+  {
+    "model": "tests.question",
+    "pk": 10,
+    "fields": {
+      "text": "9 * 9 = ?",
+      "answer_one": "3",
+      "answer_two": "56",
+      "answer_three": "49",
+      "answer_four": "81",
+      "right_answer": 4,
+      "picture": "",
+      "test": 2
+    }
+  }
+]

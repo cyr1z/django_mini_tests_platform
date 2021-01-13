@@ -120,12 +120,6 @@ class Question(models.Model):
     answer_three = models.CharField(max_length=460)
     answer_four = models.CharField(max_length=460)
     right_answer = models.IntegerField(choices=RightAnswer.choices)
-    picture = models.ImageField(
-        verbose_name='picture',
-        upload_to='pictures',
-        null=True,
-        blank=True,
-    )
     test = models.ForeignKey(
         Test,
         related_name='test_questions',
