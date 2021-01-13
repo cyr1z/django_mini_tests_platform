@@ -31,7 +31,6 @@
       "answer_three": "6",
       "answer_four": "78",
       "right_answer": 1,
-      "picture": "",
       "test": 1
     }
   },
@@ -45,7 +44,6 @@
       "answer_three": "77",
       "answer_four": "7",
       "right_answer": 1,
-      "picture": "",
       "test": 1
     }
   },
@@ -59,7 +57,6 @@
       "answer_three": "4",
       "answer_four": "6",
       "right_answer": 1,
-      "picture": "",
       "test": 1
     }
   },
@@ -73,7 +70,6 @@
       "answer_three": "65",
       "answer_four": "22",
       "right_answer": 1,
-      "picture": "",
       "test": 1
     }
   },
@@ -87,7 +83,6 @@
       "answer_three": "49.7",
       "answer_four": "11",
       "right_answer": 1,
-      "picture": "",
       "test": 1
     }
   },
@@ -101,7 +96,6 @@
       "answer_three": "6",
       "answer_four": "78",
       "right_answer": 2,
-      "picture": "",
       "test": 2
     }
   },
@@ -115,7 +109,6 @@
       "answer_three": "77",
       "answer_four": "7",
       "right_answer": 2,
-      "picture": "",
       "test": 2
     }
   },
@@ -129,7 +122,6 @@
       "answer_three": "4",
       "answer_four": "6",
       "right_answer": 1,
-      "picture": "",
       "test": 2
     }
   },
@@ -143,7 +135,6 @@
       "answer_three": "50",
       "answer_four": "22",
       "right_answer": 3,
-      "picture": "",
       "test": 2
     }
   },
@@ -157,7 +148,6 @@
       "answer_three": "49",
       "answer_four": "81",
       "right_answer": 4,
-      "picture": "",
       "test": 2
     }
   }
