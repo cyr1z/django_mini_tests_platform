@@ -127,10 +127,6 @@ tests_data = [
 ]
 
 
-def create_questions():
-    pass
-
-
 def create_tests(apps, schema_editor):
     Test = apps.get_model('tests', 'Test')
     Question = apps.get_model('tests', 'Question')
