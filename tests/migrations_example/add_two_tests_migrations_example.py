@@ -16,7 +16,6 @@ tests_data = [
                 "answer_four": "78",
                 "right_answer": 1,
                 "picture": "",
-                "test": 1
 
             },
             {
@@ -27,7 +26,6 @@ tests_data = [
                 "answer_four": "7",
                 "right_answer": 1,
                 "picture": "",
-                "test": 1
 
             },
             {
@@ -38,7 +36,6 @@ tests_data = [
                 "answer_four": "6",
                 "right_answer": 1,
                 "picture": "",
-                "test": 1
 
             },
             {
@@ -49,7 +46,6 @@ tests_data = [
                 "answer_four": "22",
                 "right_answer": 1,
                 "picture": "",
-                "test": 1
 
             },
             {
@@ -60,7 +56,6 @@ tests_data = [
                 "answer_four": "11",
                 "right_answer": 1,
                 "picture": "",
-                "test": 1
 
             }
         ]
@@ -79,7 +74,6 @@ tests_data = [
                 "answer_three": "6",
                 "answer_four": "78",
                 "right_answer": 2,
-                "test": 2
 
             },
             {
@@ -89,7 +83,6 @@ tests_data = [
                 "answer_three": "77",
                 "answer_four": "7",
                 "right_answer": 2,
-                "test": 2
 
             },
             {
@@ -99,7 +92,6 @@ tests_data = [
                 "answer_three": "4",
                 "answer_four": "6",
                 "right_answer": 1,
-                "test": 2
 
             },
             {
@@ -109,7 +101,6 @@ tests_data = [
                 "answer_three": "50",
                 "answer_four": "22",
                 "right_answer": 3,
-                "test": 2
             },
             {
                 "text": "9 * 9 = ?",
@@ -118,7 +109,6 @@ tests_data = [
                 "answer_three": "49",
                 "answer_four": "81",
                 "right_answer": 4,
-                "test": 2
             }
         ]
 
